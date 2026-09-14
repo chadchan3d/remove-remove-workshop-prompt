@@ -1,0 +1,4 @@
+* text=auto eol=lf
+# Preserve the audited production artifact byte for byte.
+/Remove_Remove_Workshop_Prompt.py -text
+*.zip -text

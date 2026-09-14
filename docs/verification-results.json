@@ -1,0 +1,84 @@
+{
+  "compiler_reproducer_python275": {
+    "eval_exec_code": "works",
+    "python": "2.7.5",
+    "tuple_exec": "compile-fails"
+  },
+  "compiler_reproducer_python3": {
+    "eval_exec_code": "works",
+    "python": "3.10.6",
+    "tuple_exec": "works"
+  },
+  "guard_sha256": "078555ae2b93e01462e40c019ca862dcb65ddf55c790e234e468b5832c838bfa",
+  "packaging": "Packaging verified: deterministic bytes, exact layout, exclusions, stale-source rejection",
+  "python275": {
+    "checks": {
+      "A timer start failure permanently latched": true,
+      "B later install exception permanently latched": true,
+      "C ownership cleanup allocation": true,
+      "C ownership cleanup compile": true,
+      "C safe retry allocation": true,
+      "C safe retry compile": true,
+      "actual func_globals private": true,
+      "applicable loader rewrite changes no bytes": true,
+      "clean prerequisite retryable": true,
+      "clean retry preserves private functions": true,
+      "consumed attempt retained on repeat": true,
+      "eligible polling budget stops at 40 seconds": true,
+      "eval receives code object and same private globals/locals": true,
+      "four nested lifecycle callbacks private": true,
+      "initial execution failure stays blocked": true,
+      "invalidated sentinel does not confirm replacement": true,
+      "post action callback private": true,
+      "reentry blocked EXECUTING": true,
+      "reentry blocked RETRYING_INSTALL": true,
+      "repeat does not execute body or reset state": true,
+      "retained callback survives host pollution": true,
+      "successful install READY": true,
+      "unrelated modal pauses budget": true
+    },
+    "complete_artifact_compiles": true,
+    "embedded_fingerprint_matches": true,
+    "passed": 23,
+    "python": "2.7.5"
+  },
+  "python3": {
+    "checks": {
+      "A timer start failure permanently latched": true,
+      "B later install exception permanently latched": true,
+      "C ownership cleanup allocation": true,
+      "C ownership cleanup compile": true,
+      "C safe retry allocation": true,
+      "C safe retry compile": true,
+      "actual func_globals private": true,
+      "applicable loader rewrite changes no bytes": true,
+      "clean prerequisite retryable": true,
+      "clean retry preserves private functions": true,
+      "consumed attempt retained on repeat": true,
+      "eligible polling budget stops at 40 seconds": true,
+      "eval receives code object and same private globals/locals": true,
+      "four nested lifecycle callbacks private": true,
+      "initial execution failure stays blocked": true,
+      "invalidated sentinel does not confirm replacement": true,
+      "post action callback private": true,
+      "reentry blocked EXECUTING": true,
+      "reentry blocked RETRYING_INSTALL": true,
+      "repeat does not execute body or reset state": true,
+      "retained callback survives host pollution": true,
+      "successful install READY": true,
+      "unrelated modal pauses budget": true
+    },
+    "complete_artifact_compiles": true,
+    "embedded_fingerprint_matches": true,
+    "passed": 23,
+    "python": "3.10.6"
+  },
+  "scope": "Complete candidate compilation and isolated tests; no live SFM/PySide session exercised",
+  "source_sha256": "06c6654df735849fcd5ea4d3c437107ad358a23ba04c0a114fd902b0b9130356",
+  "test_sha256": {
+    "tests/python275_exec_regression.py": "4bf0dd702cbc16d101ed32d936cfa01cf0c5ebc2cf994f0174a5f737b9452559",
+    "tests/verify.py": "48424bc6c366a9d402acc84e6617f90bd94608eb72551a3d3b9ef45783bcead0",
+    "tests/verify_packaging.py": "469e2f7e2dac2a9517ed40ae43e181a39fccfd76c6dbe95b0c9d167b5bd33686"
+  },
+  "verified_at": "2026-09-14T14:27:05.065369+00:00"
+}

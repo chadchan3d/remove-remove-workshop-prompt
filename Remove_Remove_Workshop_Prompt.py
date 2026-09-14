@@ -1,0 +1,1107 @@
+# -*- coding: ascii -*-
+# Remove Remove Workshop Prompt
+# Dual-host single-file launcher
+#
+# Author: ChadChan3D
+# License: CC0 1.0 Universal - Public Domain Dedication
+# https://creativecommons.org/publicdomain/zero/1.0/
+#
+# INSTALL (single file):
+#   Put this file at:
+#     game\usermod\scripts\sfm\autoinit\Remove_Remove_Workshop_Prompt.py
+#
+#   Choose either launch method:
+#
+#   A) Steam launch option:
+#      -sfm_startup_script "usermod/scripts/sfm/autoinit/Remove_Remove_Workshop_Prompt.py"
+#
+#   B) SFM Autoinit:
+#      Enable this script through Autoinit Manager.
+#
+# The launch layer below exists only to isolate the already-qualified guard
+# implementation from Autoinit's shared exec(..., globals()) namespace.
+# The embedded guard source is byte-for-byte identical to the qualified
+# standalone release identified by SHA-256:
+#   078555ae2b93e01462e40c019ca862dcb65ddf55c790e234e468b5832c838bfa
+
+
+def _rrwp_dual_host_bootstrap_6f2d3a91():
+    # Keep all bootstrap imports and working names local so Autoinit's shared
+    # global dictionary does not become a dependency of persistent callbacks.
+    import sys as _rrwp_sys
+    import types as _rrwp_types
+
+    _rrwp_state_name = "_remove_remove_workshop_prompt_bootstrap_state"
+    _rrwp_impl_name = "_remove_remove_workshop_prompt_implementation"
+    _rrwp_runtime_name = "_remove_remove_workshop_prompt_runtime"
+
+    def _rrwp_classify_install_outcome():
+        # A prerequisite miss in the qualified _install() returns with the
+        # runtime exactly pristine. Only that exact state is retryable.
+        _rrwp_runtime = _rrwp_sys.modules.get(_rrwp_runtime_name)
+        _rrwp_impl_for_check = _rrwp_sys.modules.get(_rrwp_impl_name)
+
+        if _rrwp_runtime is None or _rrwp_impl_for_check is None:
+            return "FAILED_AFTER_EXECUTION"
+
+        if getattr(_rrwp_impl_for_check, "_runtime", None) is not _rrwp_runtime:
+            return "FAILED_AFTER_EXECUTION"
+
+        if bool(getattr(_rrwp_runtime, "installed", False)):
+            return "READY"
+
+        _rrwp_clean = (
+            getattr(_rrwp_runtime, "app", None) is None
+            and getattr(_rrwp_runtime, "poll_timer", None) is None
+            and getattr(_rrwp_runtime, "post_timer", None) is None
+            and getattr(_rrwp_runtime, "start", None) is None
+            and getattr(_rrwp_runtime, "target_first_seen", None) is None
+            and getattr(_rrwp_runtime, "last_positive_signature", None) is None
+            and getattr(_rrwp_runtime, "confirmation_sentinel", None) is None
+            and getattr(_rrwp_runtime, "lifecycle_sentinels", None) == []
+            and getattr(_rrwp_runtime, "next_sentinel_token", None) == 1
+            and getattr(_rrwp_runtime, "consecutive_positive", None) == 0
+            and getattr(_rrwp_runtime, "unblocked_seconds", None) == 0.0
+            and getattr(_rrwp_runtime, "previous_sample_unblocked", None) is False
+            and getattr(_rrwp_runtime, "last_modal_title", None) is None
+            and getattr(_rrwp_runtime, "last_budget_report_bucket", None) == -1
+            and getattr(_rrwp_runtime, "stopped", None) is False
+            and getattr(_rrwp_runtime, "attempt_consumed", None) is False
+        )
+
+        if _rrwp_clean:
+            return "READY_RETRYABLE"
+
+        return "FAILED_AFTER_EXECUTION"
+
+    _rrwp_state = _rrwp_sys.modules.get(_rrwp_state_name)
+
+    if _rrwp_state is not None:
+        _rrwp_phase = getattr(_rrwp_state, "phase", None)
+
+        if _rrwp_phase == "READY":
+            # Successful installation/completion is process-authoritative.
+            return
+
+        if _rrwp_phase == "READY_RETRYABLE":
+            _rrwp_impl = _rrwp_sys.modules.get(_rrwp_impl_name)
+            _rrwp_runtime = _rrwp_sys.modules.get(_rrwp_runtime_name)
+
+            if (
+                _rrwp_impl is None
+                or _rrwp_runtime is None
+                or getattr(_rrwp_impl, "_runtime", None) is not _rrwp_runtime
+            ):
+                _rrwp_state.phase = "FAILED_AFTER_EXECUTION"
+                _rrwp_state.reason = "retryable state lost implementation/runtime identity"
+                return
+
+            _rrwp_install = getattr(_rrwp_impl, "_install", None)
+            if not callable(_rrwp_install):
+                _rrwp_state.phase = "FAILED_AFTER_EXECUTION"
+                _rrwp_state.reason = "retryable implementation has no callable _install"
+                return
+
+            # Apply the same re-entry and exception latch to later installation
+            # attempts as to initial embedded execution.
+            _rrwp_state.phase = "RETRYING_INSTALL"
+
+            try:
+                _rrwp_install()
+            except Exception:
+                _rrwp_state.phase = "FAILED_AFTER_EXECUTION"
+                _rrwp_state.reason = "later _install raised"
+                raise
+
+            _rrwp_outcome = _rrwp_classify_install_outcome()
+            _rrwp_state.phase = _rrwp_outcome
+            _rrwp_state.guard_installed = (_rrwp_outcome == "READY")
+
+            if _rrwp_outcome == "FAILED_AFTER_EXECUTION":
+                _rrwp_state.reason = (
+                    "later _install returned after non-pristine installation state"
+                )
+            return
+
+        if _rrwp_phase in (
+            "LOADING",
+            "EXECUTING",
+            "RETRYING_INSTALL",
+            "FAILED_AFTER_EXECUTION",
+        ):
+            # Never create another actor during preparation/execution or after
+            # uncertain persistent effects may have escaped.
+            return
+
+        # Unknown bootstrap state: conservative no-action behavior.
+        return
+
+    _rrwp_state = _rrwp_types.ModuleType(_rrwp_state_name)
+    _rrwp_state.phase = "LOADING"
+    _rrwp_sys.modules[_rrwp_state_name] = _rrwp_state
+
+    # A pre-existing implementation without our bootstrap state is ambiguous.
+    if _rrwp_sys.modules.get(_rrwp_impl_name) is not None:
+        _rrwp_state.phase = "FAILED_AFTER_EXECUTION"
+        _rrwp_state.reason = (
+            "implementation module pre-existed without bootstrap state"
+        )
+        return
+
+    _rrwp_impl = None
+
+    # Everything from implementation allocation through compilation is
+    # bootstrap-owned and provably pre-execution. Identity-checked cleanup is
+    # therefore safe if any preparation step fails.
+    try:
+        _rrwp_impl = _rrwp_types.ModuleType(_rrwp_impl_name)
+        _rrwp_impl.__file__ = "<Remove_Remove_Workshop_Prompt:embedded_guard>"
+        _rrwp_sys.modules[_rrwp_impl_name] = _rrwp_impl
+        _rrwp_state.implementation = _rrwp_impl
+
+        # BEGIN EMBEDDED QUALIFIED GUARD SOURCE
+        _rrwp_guard_source = (
+            '# -*- coding: ascii -*-\n'
+            '# Remove Remove Workshop Prompt\n'
+            '#\n'
+            '# Author: ChadChan3D\n'
+            '# License: CC0 1.0 Universal - Public Domain Dedication\n'
+            '# https://creativecommons.org/publicdomain/zero/1.0/\n'
+            '#\n'
+            '# INSTALL:\n'
+            '#   Put this file at:\n'
+            '#     game\\usermod\\scripts\\sfm\\Remove_Remove_Workshop_Prompt.py\n'
+            '#\n'
+            '#   Steam launch option:\n'
+            '#     -sfm_startup_script "usermod/scripts/sfm/Remove_Remove_Workshop_Prompt.py"\n'
+            '#\n'
+            '# PURPOSE:\n'
+            '#   During a 40-second accumulated unblocked startup-time budget, make at\n'
+            '#   most one conservative attempt to click Cancel on the exact SFM Workshop\n'
+            '#   window. Time behind another application-modal window does not count:\n'
+            '#\n'
+            '#       Remove Unsubscribed And Deleted Workshop Files\n'
+            '#\n'
+            '#   Uncertainty means NO ACTION.\n'
+            '#\n'
+            '# This script does not suppress Workshop downloads, updates, subscriptions,\n'
+            '# or unrelated SFM dialogs. It does not modify Workshop files or metadata.\n'
+            '\n'
+            'import os\n'
+            'import sys\n'
+            'import time\n'
+            'import traceback\n'
+            'import types\n'
+            '\n'
+            'from PySide import QtCore, QtGui\n'
+            '\n'
+            'LOG_PATH = r"C:\\Users\\Public\\Documents\\Remove_Remove_Workshop_Prompt.log"\n'
+            '\n'
+            'UNBLOCKED_BUDGET_SECONDS = 40.0\n'
+            'POLL_INTERVAL_MS = 250\n'
+            'TARGET_TITLE = u"Remove Unsubscribed And Deleted Workshop Files"\n'
+            'REQUIRED_STABLE_SAMPLES = 2\n'
+            'MAX_TARGET_CLASSIFICATION_SECONDS = 10.0\n'
+            '\n'
+            'RUNTIME_NAME = "_remove_remove_workshop_prompt_runtime"\n'
+            '\n'
+            '# All mutable callback state lives in this retained runtime object.\n'
+            '# If -sfm_startup_script is executed again in the same interpreter, the\n'
+            '# existing state is preserved and the duplicate installation is ignored.\n'
+            '_runtime = sys.modules.get(RUNTIME_NAME)\n'
+            '\n'
+            'if _runtime is None:\n'
+            '    _runtime = types.ModuleType(RUNTIME_NAME)\n'
+            '    _runtime.installed = False\n'
+            '    _runtime.stopped = False\n'
+            '    _runtime.attempt_consumed = False\n'
+            '\n'
+            '    _runtime.app = None\n'
+            '    _runtime.poll_timer = None\n'
+            '    _runtime.post_timer = None\n'
+            '\n'
+            '    _runtime.start = None\n'
+            '    _runtime.target_first_seen = None\n'
+            '    _runtime.last_positive_signature = None\n'
+            '    _runtime.confirmation_sentinel = None\n'
+            '    _runtime.lifecycle_sentinels = []\n'
+            '    _runtime.next_sentinel_token = 1\n'
+            '    _runtime.consecutive_positive = 0\n'
+            '\n'
+            '    _runtime.unblocked_seconds = 0.0\n'
+            '    _runtime.previous_sample_unblocked = False\n'
+            '    _runtime.last_modal_title = None\n'
+            '    _runtime.last_budget_report_bucket = -1\n'
+            '\n'
+            '    sys.modules[RUNTIME_NAME] = _runtime\n'
+            '\n'
+            '\n'
+            'def _now_elapsed():\n'
+            '    try:\n'
+            '        return time.clock()\n'
+            '    except Exception:\n'
+            '        return time.time()\n'
+            '\n'
+            '\n'
+            'def _safe_text(value, limit=512):\n'
+            '    try:\n'
+            '        if isinstance(value, unicode):\n'
+            '            text = value\n'
+            '        else:\n'
+            '            text = unicode(value)\n'
+            '    except Exception:\n'
+            '        try:\n'
+            '            text = unicode(repr(value))\n'
+            '        except Exception:\n'
+            '            text = u"<UNPRINTABLE>"\n'
+            '\n'
+            '    if len(text) > limit:\n'
+            '        text = text[:limit] + u"...[TRUNCATED]"\n'
+            '    return text\n'
+            '\n'
+            '\n'
+            'def _write(text):\n'
+            '    try:\n'
+            '        if not isinstance(text, unicode):\n'
+            '            text = unicode(text)\n'
+            '    except Exception:\n'
+            '        text = u"<UNPRINTABLE LOG MESSAGE>"\n'
+            '\n'
+            '    if not text.endswith(u"\\n"):\n'
+            '        text += u"\\n"\n'
+            '\n'
+            '    try:\n'
+            '        data = text.encode("utf-8")\n'
+            '    except Exception:\n'
+            '        data = repr(text)\n'
+            '\n'
+            '    try:\n'
+            '        f = open(LOG_PATH, "ab")\n'
+            '        try:\n'
+            '            f.write(data)\n'
+            '        finally:\n'
+            '            f.close()\n'
+            '    except Exception:\n'
+            '        # Logging is diagnostic only. A log-path failure must not change the\n'
+            "        # guard's classification or cancellation behavior.\n"
+            '        pass\n'
+            '\n'
+            '\n'
+            'def _getter(obj, name, default="<ERROR>"):\n'
+            '    try:\n'
+            '        return getattr(obj, name)()\n'
+            '    except Exception:\n'
+            '        return default\n'
+            '\n'
+            '\n'
+            'def _meta_class(obj):\n'
+            '    try:\n'
+            '        mo = obj.metaObject()\n'
+            '        if mo is None:\n'
+            '            return u"<NO_METAOBJECT>"\n'
+            '        return _safe_text(mo.className(), 160)\n'
+            '    except Exception:\n'
+            '        return u"<ERROR>"\n'
+            '\n'
+            '\n'
+            'def _type_name(obj):\n'
+            '    try:\n'
+            '        return type(obj).__name__\n'
+            '    except Exception:\n'
+            '        return "<UNKNOWN>"\n'
+            '\n'
+            '\n'
+            'def _stop_poll_timer():\n'
+            '    try:\n'
+            '        if _runtime.poll_timer is not None:\n'
+            '            _runtime.poll_timer.stop()\n'
+            '    except Exception:\n'
+            '        pass\n'
+            '\n'
+            '\n'
+            '\n'
+            '_EVENT_NAMES = {}\n'
+            'for _event_name in ("Close", "Hide", "Destroy", "WindowDeactivate"):\n'
+            '    try:\n'
+            '        _EVENT_NAMES[int(getattr(QtCore.QEvent, _event_name))] = _event_name\n'
+            '    except Exception:\n'
+            '        pass\n'
+            '\n'
+            '\n'
+            'class _LifecycleSentinel(QtCore.QObject):\n'
+            '    """\n'
+            '    Non-owning continuity token attached to one exact native target dialog.\n'
+            '\n'
+            '    The sentinel is retained by our runtime, but the target dialog wrapper is\n'
+            '    not. If the original native dialog closes, hides, is destroyed, or loses\n'
+            '    window activation between positive samples, the token is invalidated.\n'
+            '    """\n'
+            '\n'
+            '    def __init__(self, token):\n'
+            '        QtCore.QObject.__init__(self)\n'
+            '        self.token = token\n'
+            '        self.invalidated = False\n'
+            '        self.reason = None\n'
+            '        self.event_filter_installed = False\n'
+            '        self.destroyed_connected = False\n'
+            '        self.finished_connected = False\n'
+            '        self.accepted_connected = False\n'
+            '        self.rejected_connected = False\n'
+            '\n'
+            '    def invalidate(self, reason):\n'
+            '        if self.invalidated:\n'
+            '            return\n'
+            '        self.invalidated = True\n'
+            '        self.reason = reason\n'
+            '        _write(\n'
+            '            "[GUARD] CONFIRMATION_SENTINEL_INVALIDATED token=%d reason=%s"\n'
+            '            % (self.token, _safe_text(reason, 160))\n'
+            '        )\n'
+            '\n'
+            '    def eventFilter(self, watched, event):\n'
+            '        try:\n'
+            '            event_type = int(event.type())\n'
+            '        except Exception:\n'
+            '            event_type = -1\n'
+            '\n'
+            '        name = _EVENT_NAMES.get(event_type)\n'
+            '        if name is not None:\n'
+            '            self.invalidate("QEvent.%s" % name)\n'
+            '\n'
+            '        return False\n'
+            '\n'
+            '\n'
+            'def _make_lifecycle_sentinel(dialog):\n'
+            '    token = _runtime.next_sentinel_token\n'
+            '    _runtime.next_sentinel_token += 1\n'
+            '\n'
+            '    sentinel = _LifecycleSentinel(token)\n'
+            '\n'
+            '    # Retain the sentinel itself so an installed event filter never becomes a\n'
+            '    # dangling Python object. Do not retain the dialog wrapper.\n'
+            '    _runtime.lifecycle_sentinels.append(sentinel)\n'
+            '\n'
+            '    try:\n'
+            '        dialog.installEventFilter(sentinel)\n'
+            '        sentinel.event_filter_installed = True\n'
+            '    except Exception:\n'
+            '        pass\n'
+            '\n'
+            '    def _destroyed(*args):\n'
+            '        sentinel.invalidate("destroyed")\n'
+            '\n'
+            '    def _finished(*args):\n'
+            '        sentinel.invalidate("finished")\n'
+            '\n'
+            '    def _accepted(*args):\n'
+            '        sentinel.invalidate("accepted")\n'
+            '\n'
+            '    def _rejected(*args):\n'
+            '        sentinel.invalidate("rejected")\n'
+            '\n'
+            '    try:\n'
+            '        dialog.destroyed.connect(_destroyed)\n'
+            '        sentinel.destroyed_connected = True\n'
+            '    except Exception:\n'
+            '        pass\n'
+            '\n'
+            '    try:\n'
+            '        dialog.finished.connect(_finished)\n'
+            '        sentinel.finished_connected = True\n'
+            '    except Exception:\n'
+            '        pass\n'
+            '\n'
+            '    try:\n'
+            '        dialog.accepted.connect(_accepted)\n'
+            '        sentinel.accepted_connected = True\n'
+            '    except Exception:\n'
+            '        pass\n'
+            '\n'
+            '    try:\n'
+            '        dialog.rejected.connect(_rejected)\n'
+            '        sentinel.rejected_connected = True\n'
+            '    except Exception:\n'
+            '        pass\n'
+            '\n'
+            '    # Fail closed if the lifecycle mechanism cannot be established.\n'
+            '    if not (\n'
+            '        sentinel.event_filter_installed\n'
+            '        and sentinel.destroyed_connected\n'
+            '        and sentinel.finished_connected\n'
+            '        and sentinel.accepted_connected\n'
+            '        and sentinel.rejected_connected\n'
+            '    ):\n'
+            '        sentinel.invalidate("lifecycle observer setup incomplete")\n'
+            '        return None\n'
+            '\n'
+            '    _write(\n'
+            '        "[GUARD] CONFIRMATION_SENTINEL_ARMED token=%d"\n'
+            '        % sentinel.token\n'
+            '    )\n'
+            '    return sentinel\n'
+            '\n'
+            '\n'
+            'def _clear_pending_confirmation(reason):\n'
+            '    had_pending = (\n'
+            '        _runtime.consecutive_positive > 0\n'
+            '        or _runtime.last_positive_signature is not None\n'
+            '        or _runtime.confirmation_sentinel is not None\n'
+            '    )\n'
+            '\n'
+            '    sentinel = _runtime.confirmation_sentinel\n'
+            '    if sentinel is not None and not sentinel.invalidated:\n'
+            '        sentinel.invalidate("confirmation reset: %s" % _safe_text(reason, 120))\n'
+            '\n'
+            '    _runtime.last_positive_signature = None\n'
+            '    _runtime.confirmation_sentinel = None\n'
+            '    _runtime.consecutive_positive = 0\n'
+            '\n'
+            '    if had_pending:\n'
+            '        _write("[GUARD] CONFIRMATION_RESET reason=%s" % _safe_text(reason, 160))\n'
+            '\n'
+            'def _clear_target_episode(reason):\n'
+            '    _clear_pending_confirmation(reason)\n'
+            '    _runtime.target_first_seen = None\n'
+            '\n'
+            '\n'
+            'def _stop(reason):\n'
+            '    if _runtime.stopped:\n'
+            '        return\n'
+            '\n'
+            '    _runtime.stopped = True\n'
+            '    _stop_poll_timer()\n'
+            '\n'
+            '    try:\n'
+            '        wall_elapsed = max(0.0, _now_elapsed() - _runtime.start)\n'
+            '    except Exception:\n'
+            '        wall_elapsed = -1.0\n'
+            '\n'
+            '    _write(\n'
+            '        "[GUARD] STOP wall=%.3fs unblocked=%.3fs reason=%s"\n'
+            '        % (\n'
+            '            wall_elapsed,\n'
+            '            _runtime.unblocked_seconds,\n'
+            '            _safe_text(reason, 240),\n'
+            '        )\n'
+            '    )\n'
+            '\n'
+            'def _about_to_quit():\n'
+            '    _stop("QApplication.aboutToQuit")\n'
+            '\n'
+            '\n'
+            'def _inspect_target(dialog):\n'
+            '    """\n'
+            '    Return:\n'
+            '        positive_bool,\n'
+            '        scalar_signature,\n'
+            '        cancel_button_or_None,\n'
+            '        failed_checks\n'
+            '\n'
+            '    No dialog, button, box, or list reference is retained between samples.\n'
+            '    """\n'
+            '\n'
+            '    python_type = _type_name(dialog)\n'
+            '    meta_class = _meta_class(dialog)\n'
+            '    title = _safe_text(_getter(dialog, "windowTitle"))\n'
+            '    visible = bool(_getter(dialog, "isVisible", False))\n'
+            '    enabled = bool(_getter(dialog, "isEnabled", False))\n'
+            '    modal = bool(_getter(dialog, "isModal", False))\n'
+            '\n'
+            '    try:\n'
+            '        application_modal = (\n'
+            '            dialog.windowModality() == QtCore.Qt.ApplicationModal\n'
+            '        )\n'
+            '    except Exception:\n'
+            '        application_modal = False\n'
+            '\n'
+            '    try:\n'
+            '        boxes = list(dialog.findChildren(QtGui.QDialogButtonBox))\n'
+            '    except Exception:\n'
+            '        boxes = []\n'
+            '\n'
+            '    buttonbox_count = len(boxes)\n'
+            '    total_buttons = 0\n'
+            '    accept_count = 0\n'
+            '    reject_count = 0\n'
+            '\n'
+            '    ok_text_count = 0\n'
+            '    cancel_text_count = 0\n'
+            '    ok_button = None\n'
+            '    cancel_button = None\n'
+            '\n'
+            '    ok_visible = False\n'
+            '    ok_enabled = False\n'
+            '    ok_default = False\n'
+            '    ok_auto_default = False\n'
+            '\n'
+            '    cancel_visible = False\n'
+            '    cancel_enabled = False\n'
+            '    cancel_default = False\n'
+            '    cancel_auto_default = False\n'
+            '\n'
+            '    for box in boxes[:2]:\n'
+            '        try:\n'
+            '            buttons = list(box.buttons())\n'
+            '        except Exception:\n'
+            '            buttons = []\n'
+            '\n'
+            '        total_buttons += len(buttons)\n'
+            '\n'
+            '        for button in buttons[:6]:\n'
+            '            text = _safe_text(_getter(button, "text"), 160)\n'
+            '\n'
+            '            try:\n'
+            '                role = box.buttonRole(button)\n'
+            '            except Exception:\n'
+            '                role = None\n'
+            '\n'
+            '            if role == QtGui.QDialogButtonBox.AcceptRole:\n'
+            '                accept_count += 1\n'
+            '\n'
+            '            if role == QtGui.QDialogButtonBox.RejectRole:\n'
+            '                reject_count += 1\n'
+            '\n'
+            '            if text == u"OK":\n'
+            '                ok_text_count += 1\n'
+            '                ok_button = button\n'
+            '                ok_visible = bool(_getter(button, "isVisible", False))\n'
+            '                ok_enabled = bool(_getter(button, "isEnabled", False))\n'
+            '                ok_default = bool(_getter(button, "isDefault", False))\n'
+            '                ok_auto_default = bool(_getter(button, "autoDefault", False))\n'
+            '\n'
+            '            if text == u"Cancel":\n'
+            '                cancel_text_count += 1\n'
+            '                cancel_visible = bool(_getter(button, "isVisible", False))\n'
+            '                cancel_enabled = bool(_getter(button, "isEnabled", False))\n'
+            '                cancel_default = bool(_getter(button, "isDefault", False))\n'
+            '                cancel_auto_default = bool(_getter(button, "autoDefault", False))\n'
+            '\n'
+            '                if role == QtGui.QDialogButtonBox.RejectRole:\n'
+            '                    cancel_button = button\n'
+            '\n'
+            '    try:\n'
+            '        lists = list(dialog.findChildren(QtGui.QListWidget))\n'
+            '    except Exception:\n'
+            '        lists = []\n'
+            '\n'
+            '    list_count = len(lists)\n'
+            '    row_count = -1\n'
+            '\n'
+            '    if list_count == 1:\n'
+            '        try:\n'
+            '            row_count = lists[0].count()\n'
+            '        except Exception:\n'
+            '            try:\n'
+            '                model = lists[0].model()\n'
+            '                row_count = model.rowCount() if model is not None else -1\n'
+            '            except Exception:\n'
+            '                row_count = -1\n'
+            '\n'
+            '    checks = [\n'
+            '        ("exact_title", title == TARGET_TITLE),\n'
+            '        ("python_qdialog", python_type == "QDialog"),\n'
+            '        ("meta_qdialog", meta_class == u"QDialog"),\n'
+            '        ("visible", visible),\n'
+            '        ("enabled", enabled),\n'
+            '        ("modal", modal),\n'
+            '        ("application_modal", application_modal),\n'
+            '        ("one_buttonbox", buttonbox_count == 1),\n'
+            '        ("two_buttons", total_buttons == 2),\n'
+            '        ("one_accept_role", accept_count == 1),\n'
+            '        ("one_reject_role", reject_count == 1),\n'
+            '        ("one_ok_text", ok_text_count == 1),\n'
+            '        ("one_cancel_text", cancel_text_count == 1),\n'
+            '        ("ok_is_qpushbutton", isinstance(ok_button, QtGui.QPushButton)),\n'
+            '        ("cancel_is_qpushbutton", isinstance(cancel_button, QtGui.QPushButton)),\n'
+            '        ("ok_visible", ok_visible),\n'
+            '        ("ok_enabled", ok_enabled),\n'
+            '        ("cancel_visible", cancel_visible),\n'
+            '        ("cancel_enabled", cancel_enabled),\n'
+            '        ("one_list", list_count == 1),\n'
+            '        ("nonempty_list", row_count >= 1),\n'
+            '        ("cancel_resolved", cancel_button is not None),\n'
+            '    ]\n'
+            '\n'
+            '    positive = all(value for (name, value) in checks)\n'
+            '    failed = [name for (name, value) in checks if not value]\n'
+            '\n'
+            '    signature = (\n'
+            '        python_type,\n'
+            '        meta_class,\n'
+            '        title,\n'
+            '        visible,\n'
+            '        enabled,\n'
+            '        modal,\n'
+            '        application_modal,\n'
+            '        buttonbox_count,\n'
+            '        total_buttons,\n'
+            '        accept_count,\n'
+            '        reject_count,\n'
+            '        ok_text_count,\n'
+            '        cancel_text_count,\n'
+            '        isinstance(ok_button, QtGui.QPushButton),\n'
+            '        isinstance(cancel_button, QtGui.QPushButton),\n'
+            '        ok_visible,\n'
+            '        ok_enabled,\n'
+            '        ok_default,\n'
+            '        ok_auto_default,\n'
+            '        cancel_visible,\n'
+            '        cancel_enabled,\n'
+            '        cancel_default,\n'
+            '        cancel_auto_default,\n'
+            '        list_count,\n'
+            '        row_count,\n'
+            '    )\n'
+            '\n'
+            '    # Do not retain target-local collections.\n'
+            '    boxes = None\n'
+            '    lists = None\n'
+            '    ok_button = None\n'
+            '\n'
+            '    return positive, signature, cancel_button, failed\n'
+            '\n'
+            '\n'
+            'def _finish_post_action_timer():\n'
+            '    try:\n'
+            '        if _runtime.post_timer is not None:\n'
+            '            _runtime.post_timer.stop()\n'
+            '    except Exception:\n'
+            '        pass\n'
+            '\n'
+            '    _runtime.post_timer = None\n'
+            '\n'
+            '\n'
+            'def _post_action_check():\n'
+            '    try:\n'
+            '        try:\n'
+            '            modal = _runtime.app.activeModalWidget()\n'
+            '        except Exception:\n'
+            '            _write("[GUARD] POST_ACTION activeModalWidget=ERROR")\n'
+            '            return\n'
+            '\n'
+            '        if modal is None:\n'
+            '            _write("[GUARD] POST_ACTION activeModal=NONE")\n'
+            '            return\n'
+            '\n'
+            '        try:\n'
+            '            title = _safe_text(modal.windowTitle())\n'
+            '        except Exception:\n'
+            '            title = u"<ERROR>"\n'
+            '\n'
+            '        if title == TARGET_TITLE:\n'
+            '            _write(\n'
+            '                "[GUARD] POST_ACTION_WARNING target_dialog_still_active=YES retry=NO"\n'
+            '            )\n'
+            '        else:\n'
+            '            _write("[GUARD] POST_ACTION activeModalTitle=%r" % title)\n'
+            '\n'
+            '        modal = None\n'
+            '    finally:\n'
+            '        _finish_post_action_timer()\n'
+            '\n'
+            '\n'
+            'def _schedule_post_action_check():\n'
+            '    try:\n'
+            '        timer = QtCore.QTimer()\n'
+            '        timer.setSingleShot(True)\n'
+            '        timer.setInterval(500)\n'
+            '        timer.timeout.connect(_post_action_check)\n'
+            '\n'
+            '        _runtime.post_timer = timer\n'
+            '        timer.start()\n'
+            '    except Exception:\n'
+            '        _runtime.post_timer = None\n'
+            '        _write("[GUARD] POST_ACTION_CHECK_SCHEDULE_FAILED")\n'
+            '\n'
+            '\n'
+            '\n'
+            'def _log_modal_transition(title):\n'
+            '    if title == _runtime.last_modal_title:\n'
+            '        return\n'
+            '\n'
+            '    _runtime.last_modal_title = title\n'
+            '\n'
+            '    try:\n'
+            '        wall_elapsed = max(0.0, _now_elapsed() - _runtime.start)\n'
+            '    except Exception:\n'
+            '        wall_elapsed = -1.0\n'
+            '\n'
+            '    _write(\n'
+            '        "[GUARD] ACTIVE_MODAL_CHANGED wall=%.3fs unblocked=%.3fs title=%r"\n'
+            '        % (wall_elapsed, _runtime.unblocked_seconds, title)\n'
+            '    )\n'
+            '\n'
+            '\n'
+            'def _report_budget_progress():\n'
+            '    try:\n'
+            '        bucket = int(_runtime.unblocked_seconds // 5.0)\n'
+            '    except Exception:\n'
+            '        return\n'
+            '\n'
+            '    if bucket == _runtime.last_budget_report_bucket:\n'
+            '        return\n'
+            '\n'
+            '    _runtime.last_budget_report_bucket = bucket\n'
+            '\n'
+            '    if bucket > 0:\n'
+            '        _write(\n'
+            '            "[GUARD] UNBLOCKED_PROGRESS unblocked=%.3fs of %.1fs"\n'
+            '            % (_runtime.unblocked_seconds, UNBLOCKED_BUDGET_SECONDS)\n'
+            '        )\n'
+            '\n'
+            '\n'
+            '\n'
+            'def _poll():\n'
+            '    if _runtime.stopped or _runtime.attempt_consumed:\n'
+            '        return\n'
+            '\n'
+            '    # Narrow discovery only. Never enumerate the general SFM widget graph.\n'
+            '    try:\n'
+            '        dialog = _runtime.app.activeModalWidget()\n'
+            '    except Exception:\n'
+            '        _clear_target_episode("activeModalWidget query failure")\n'
+            '        _write("[GUARD] activeModalWidget query failed")\n'
+            '        _stop("activeModalWidget query failure")\n'
+            '        return\n'
+            '\n'
+            '    if dialog is None:\n'
+            '        _log_modal_transition(None)\n'
+            '\n'
+            '        # Count only consecutive 250 ms polling intervals for which no\n'
+            '        # application-modal window is active. Time spent behind a startup\n'
+            '        # modal does not consume the 40-second action budget. Long event-loop\n'
+            '        # stalls also do not get charged as freely usable time.\n'
+            '        if _runtime.previous_sample_unblocked:\n'
+            '            _runtime.unblocked_seconds += (POLL_INTERVAL_MS / 1000.0)\n'
+            '\n'
+            '        _runtime.previous_sample_unblocked = True\n'
+            '        _clear_target_episode("no active modal")\n'
+            '        _report_budget_progress()\n'
+            '\n'
+            '        if _runtime.unblocked_seconds >= UNBLOCKED_BUDGET_SECONDS:\n'
+            '            _stop("40-second unblocked budget expired")\n'
+            '        return\n'
+            '\n'
+            '    _runtime.previous_sample_unblocked = False\n'
+            '\n'
+            '    try:\n'
+            '        title = _safe_text(dialog.windowTitle())\n'
+            '    except Exception:\n'
+            '        _log_modal_transition(u"<TITLE_ERROR>")\n'
+            '        _clear_target_episode("modal title unreadable")\n'
+            '        dialog = None\n'
+            '        return\n'
+            '\n'
+            '    _log_modal_transition(title)\n'
+            '\n'
+            '    if title != TARGET_TITLE:\n'
+            '        _clear_target_episode("unrelated active modal")\n'
+            '        dialog = None\n'
+            '        return\n'
+            '\n'
+            '    now = _now_elapsed()\n'
+            '\n'
+            '    if _runtime.target_first_seen is None:\n'
+            '        _runtime.target_first_seen = now\n'
+            '        _write(\n'
+            '            "[GUARD] TARGET_FIRST_SEEN wall=%.3fs unblocked=%.3fs"\n'
+            '            % (\n'
+            '                max(0.0, now - _runtime.start),\n'
+            '                _runtime.unblocked_seconds,\n'
+            '            )\n'
+            '        )\n'
+            '\n'
+            '    if (now - _runtime.target_first_seen) >= MAX_TARGET_CLASSIFICATION_SECONDS:\n'
+            '        dialog = None\n'
+            '        _stop("target failed conservative classification timeout")\n'
+            '        return\n'
+            '\n'
+            '    try:\n'
+            '        positive, signature, cancel_button, failed = _inspect_target(dialog)\n'
+            '    except Exception:\n'
+            '        _clear_pending_confirmation("classifier exception")\n'
+            '        _write("[GUARD] classifier exception\\n%s" % traceback.format_exc())\n'
+            '        dialog = None\n'
+            '        _stop("classifier exception")\n'
+            '        return\n'
+            '\n'
+            '    if not positive:\n'
+            '        _clear_pending_confirmation("negative target sample")\n'
+            '        _write("[GUARD] NO_ACTION failed_checks=%r" % failed)\n'
+            '        cancel_button = None\n'
+            '        dialog = None\n'
+            '        return\n'
+            '\n'
+            '    sentinel = _runtime.confirmation_sentinel\n'
+            '\n'
+            '    if (\n'
+            '        signature == _runtime.last_positive_signature\n'
+            '        and sentinel is not None\n'
+            '        and not sentinel.invalidated\n'
+            '    ):\n'
+            "        # The first target's native lifecycle remained uninterrupted between\n"
+            '        # callbacks. This is the required same-dialog continuity proof.\n'
+            '        _runtime.consecutive_positive += 1\n'
+            '        _write(\n'
+            '            "[GUARD] CONTINUITY_CONFIRMED token=%d"\n'
+            '            % sentinel.token\n'
+            '        )\n'
+            '    else:\n'
+            '        # Signature changed, prior lifecycle was invalidated, or this is the\n'
+            '        # first positive observation. Begin a new confirmation episode on the\n'
+            '        # exact currently observed target.\n'
+            '        if sentinel is not None and not sentinel.invalidated:\n'
+            '            sentinel.invalidate("positive confirmation restarted")\n'
+            '\n'
+            '        sentinel = _make_lifecycle_sentinel(dialog)\n'
+            '        if sentinel is None:\n'
+            '            _clear_pending_confirmation("lifecycle sentinel unavailable")\n'
+            '            cancel_button = None\n'
+            '            dialog = None\n'
+            '            _stop("cannot establish safe target continuity; no action")\n'
+            '            return\n'
+            '\n'
+            '        _runtime.last_positive_signature = signature\n'
+            '        _runtime.confirmation_sentinel = sentinel\n'
+            '        _runtime.consecutive_positive = 1\n'
+            '        _write(\n'
+            '            "[GUARD] POSITIVE_SAMPLE_1 wall=%.3fs unblocked=%.3fs token=%d"\n'
+            '            % (\n'
+            '                max(0.0, now - _runtime.start),\n'
+            '                _runtime.unblocked_seconds,\n'
+            '                sentinel.token,\n'
+            '            )\n'
+            '        )\n'
+            '\n'
+            '    if _runtime.consecutive_positive < REQUIRED_STABLE_SAMPLES:\n'
+            '        cancel_button = None\n'
+            '        dialog = None\n'
+            '        return\n'
+            '\n'
+            '    # Final same-callback checks on the exact objects about to be used.\n'
+            '    sentinel = _runtime.confirmation_sentinel\n'
+            '    lifecycle_still_valid = (\n'
+            '        sentinel is not None and not sentinel.invalidated\n'
+            '    )\n'
+            '\n'
+            '    try:\n'
+            '        still_active = (_runtime.app.activeModalWidget() is dialog)\n'
+            '    except Exception:\n'
+            '        still_active = False\n'
+            '\n'
+            '    try:\n'
+            '        cancel_still_valid = (\n'
+            '            isinstance(cancel_button, QtGui.QPushButton)\n'
+            '            and _safe_text(cancel_button.text(), 160) == u"Cancel"\n'
+            '            and bool(cancel_button.isVisible())\n'
+            '            and bool(cancel_button.isEnabled())\n'
+            '        )\n'
+            '    except Exception:\n'
+            '        cancel_still_valid = False\n'
+            '\n'
+            '    if not lifecycle_still_valid or not still_active or not cancel_still_valid:\n'
+            '        _write(\n'
+            '            "[GUARD] FINAL_GUARD_FAILED lifecycleValid=%s stillActive=%s "\n'
+            '            "cancelStillValid=%s"\n'
+            '            % (\n'
+            '                "YES" if lifecycle_still_valid else "NO",\n'
+            '                "YES" if still_active else "NO",\n'
+            '                "YES" if cancel_still_valid else "NO",\n'
+            '            )\n'
+            '        )\n'
+            '        cancel_button = None\n'
+            '        dialog = None\n'
+            '        _stop("final guard failed; no action")\n'
+            '        return\n'
+            '\n'
+            '    # Consume the sole attempt and stop polling BEFORE mutating the dialog.\n'
+            '    _runtime.attempt_consumed = True\n'
+            '    _runtime.stopped = True\n'
+            '    _stop_poll_timer()\n'
+            '\n'
+            '    _write(\n'
+            '        "[GUARD] CANCEL_ATTEMPT_CONSUMED=YES stable_positive_samples=%d "\n'
+            '        "wall=%.3fs unblocked=%.3fs"\n'
+            '        % (\n'
+            '            _runtime.consecutive_positive,\n'
+            '            max(0.0, _now_elapsed() - _runtime.start),\n'
+            '            _runtime.unblocked_seconds,\n'
+            '        )\n'
+            '    )\n'
+            '\n'
+            '    try:\n'
+            '        cancel_button.click()\n'
+            '        _write("[GUARD] CANCEL_CLICK_RETURNED_NORMALLY=YES")\n'
+            '    except Exception:\n'
+            '        _write("[GUARD] CANCEL_CLICK_EXCEPTION\\n%s" % traceback.format_exc())\n'
+            '\n'
+            '    _write("[GUARD] RETRY_ALLOWED=NO")\n'
+            '\n'
+            '    cancel_button = None\n'
+            '    dialog = None\n'
+            '\n'
+            '    _schedule_post_action_check()\n'
+            '\n'
+            'def _install():\n'
+            '    # Duplicate execution must not reset or replace an active/completed guard.\n'
+            '    if _runtime.installed:\n'
+            '        _write(\n'
+            '            "[GUARD] DUPLICATE_INSTALL_IGNORED stopped=%s attempt_consumed=%s"\n'
+            '            % (\n'
+            '                "YES" if _runtime.stopped else "NO",\n'
+            '                "YES" if _runtime.attempt_consumed else "NO",\n'
+            '            )\n'
+            '        )\n'
+            '        return\n'
+            '\n'
+            '    # Logging is optional. Failure to create/truncate the log must not disable\n'
+            '    # the guard.\n'
+            '    try:\n'
+            '        f = open(LOG_PATH, "wb")\n'
+            '        try:\n'
+            '            f.write("")\n'
+            '        finally:\n'
+            '            f.close()\n'
+            '    except Exception:\n'
+            '        pass\n'
+            '\n'
+            '    _write("=" * 72)\n'
+            '    _write("Remove Remove Workshop Prompt")\n'
+            '    _write("=" * 72)\n'
+            '    _write("wall_clock_start=%s" % time.ctime())\n'
+            '    _write("pid=%s" % os.getpid())\n'
+            '    _write("python_version=%r" % sys.version)\n'
+            '    _write("target_title=%r" % TARGET_TITLE)\n'
+            '\n'
+            '    try:\n'
+            '        app = QtGui.QApplication.instance()\n'
+            '    except Exception:\n'
+            '        _write("[GUARD] QApplication lookup failed")\n'
+            '        return\n'
+            '\n'
+            '    if app is None:\n'
+            '        _write("[GUARD] no existing QApplication; guard disabled")\n'
+            '        return\n'
+            '\n'
+            '    try:\n'
+            '        current_thread = QtCore.QThread.currentThread()\n'
+            '        app_thread = app.thread()\n'
+            '        gui_thread_match = (current_thread == app_thread)\n'
+            '    except Exception:\n'
+            '        _write("[GUARD] GUI-thread check failed")\n'
+            '        return\n'
+            '\n'
+            '    if not gui_thread_match:\n'
+            '        _write("[GUARD] not on QApplication GUI thread; guard disabled")\n'
+            '        return\n'
+            '\n'
+            '    try:\n'
+            '        timer = QtCore.QTimer()\n'
+            '        timer.setInterval(POLL_INTERVAL_MS)\n'
+            '        timer.timeout.connect(_poll)\n'
+            '    except Exception:\n'
+            '        _write("[GUARD] timer creation failed")\n'
+            '        return\n'
+            '\n'
+            '    _runtime.app = app\n'
+            '    _runtime.poll_timer = timer\n'
+            '    _runtime.post_timer = None\n'
+            '\n'
+            '    _runtime.start = _now_elapsed()\n'
+            '    _runtime.target_first_seen = None\n'
+            '    _runtime.last_positive_signature = None\n'
+            '    _runtime.confirmation_sentinel = None\n'
+            '    _runtime.lifecycle_sentinels = []\n'
+            '    _runtime.next_sentinel_token = 1\n'
+            '    _runtime.consecutive_positive = 0\n'
+            '\n'
+            '    _runtime.unblocked_seconds = 0.0\n'
+            '    _runtime.previous_sample_unblocked = False\n'
+            '    _runtime.last_modal_title = None\n'
+            '    _runtime.last_budget_report_bucket = -1\n'
+            '\n'
+            '    _runtime.stopped = False\n'
+            '    _runtime.attempt_consumed = False\n'
+            '    _runtime.installed = True\n'
+            '\n'
+            '    try:\n'
+            '        app.aboutToQuit.connect(_about_to_quit)\n'
+            '    except Exception:\n'
+            '        _write("[GUARD] aboutToQuit hook unavailable; continuing")\n'
+            '\n'
+            '    _write(\n'
+            '        "[GUARD] INSTALLED host=-sfm_startup_script "\n'
+            '        "unblocked_budget_seconds=%.1f poll_ms=%d stable_samples=%d"\n'
+            '        % (\n'
+            '            UNBLOCKED_BUDGET_SECONDS,\n'
+            '            POLL_INTERVAL_MS,\n'
+            '            REQUIRED_STABLE_SAMPLES,\n'
+            '        )\n'
+            '    )\n'
+            '\n'
+            '    try:\n'
+            '        timer.start()\n'
+            '    except Exception:\n'
+            '        _write("[GUARD] timer start failed")\n'
+            '        _runtime.installed = False\n'
+            '        _runtime.stopped = True\n'
+            '        _runtime.poll_timer = None\n'
+            '        return\n'
+            '\n'
+            '\n'
+            '_install()\n'
+        )
+        # END EMBEDDED QUALIFIED GUARD SOURCE
+
+        _rrwp_code = compile(
+            _rrwp_guard_source,
+            "<Remove_Remove_Workshop_Prompt:embedded_guard>",
+            "exec",
+        )
+    except Exception:
+        _rrwp_state.phase = "FAILED_PRE_EXECUTION"
+        if (
+            _rrwp_impl is not None
+            and _rrwp_sys.modules.get(_rrwp_impl_name) is _rrwp_impl
+        ):
+            del _rrwp_sys.modules[_rrwp_impl_name]
+        if _rrwp_sys.modules.get(_rrwp_state_name) is _rrwp_state:
+            del _rrwp_sys.modules[_rrwp_state_name]
+        raise
+
+    # Once embedded execution begins, Qt/runtime effects may escape. Never
+    # delete or reconstruct uncertain state after this boundary.
+    _rrwp_state.phase = "EXECUTING"
+
+    try:
+        # Evaluate the already-compiled exec-mode code object with the same
+        # dictionary as globals and locals. This avoids Python 2.7's nested
+        # unqualified-exec compiler restriction while preserving private
+        # module-style global resolution for all persistent functions/classes.
+        eval(_rrwp_code, _rrwp_impl.__dict__, _rrwp_impl.__dict__)
+    except Exception:
+        _rrwp_state.phase = "FAILED_AFTER_EXECUTION"
+        _rrwp_state.reason = "initial embedded execution raised"
+        raise
+
+    # A normal return from the embedded source does not itself prove that
+    # _install() succeeded. Classify the guard runtime before deciding whether
+    # future invocations may retry.
+    _rrwp_outcome = _rrwp_classify_install_outcome()
+    _rrwp_state.phase = _rrwp_outcome
+    _rrwp_state.guard_installed = (_rrwp_outcome == "READY")
+
+    if _rrwp_outcome == "FAILED_AFTER_EXECUTION":
+        _rrwp_state.reason = (
+            "initial _install returned after non-pristine installation state"
+        )
+
+
+try:
+    _rrwp_dual_host_bootstrap_6f2d3a91()
+finally:
+    # Do not leave the bootstrap entry point in Autoinit's shared globals.
+    try:
+        del _rrwp_dual_host_bootstrap_6f2d3a91
+    except Exception:
+        pass

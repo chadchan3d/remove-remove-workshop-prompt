@@ -10,7 +10,7 @@ For a manual installation, copy the repository's `Remove_Remove_Workshop_Prompt.
 SourceFilmmaker/game/usermod/scripts/sfm/autoinit/Remove_Remove_Workshop_Prompt.py
 ```
 
-Alternatively, extract the prepared manual-install ZIP into `SourceFilmmaker/game/`. Its `usermod/scripts/sfm/autoinit/` directory installs the same file. Do not extract the GitHub source-code archive as though it were the manual-install ZIP.
+Alternatively, extract the prepared manual-install ZIP into `SourceFilmmaker/game/`. Its `usermod/scripts/sfm/autoinit/` directory installs the same file. Use the release ZIP for installation, not GitHub's automatically generated source-code archive.
 
 Choose one startup method:
 
@@ -20,7 +20,7 @@ Choose one startup method:
    -sfm_startup_script "usermod/scripts/sfm/autoinit/Remove_Remove_Workshop_Prompt.py"
    ```
 
-2. **KiwifruitDev Autoinit:** With Autoinit already installed, enable this script in Autoinit Manager. The supplied loader reference discovers `.py` files recursively beneath each mod's `scripts/sfm/autoinit/` directory. Autoinit is an external dependency and is not included.
+2. **KiwifruitDev Autoinit:** With Autoinit already installed, enable this script in Autoinit Manager. Autoinit discovers scripts beneath a mod's `scripts/sfm/autoinit/` directory. Autoinit is an external dependency and is not included.
 
 Restart SFM. Only one startup method is necessary. The same physical `.py` supports both methods; duplicate invocation in the same process preserves the existing guard state.
 
@@ -38,7 +38,7 @@ After the attempt, or after watching stops, later removal windows are left alone
 
 Target environment: SFM's Python 2.7.5, PySide 1.2.0, and Qt 4.8.3, with an existing QApplication on its GUI thread.
 
-This repository preserves the R3 source artifact exactly. Complete-file compilation and isolated callback/failure tests have passed with SFM's bundled Python 2.7.5. Earlier project records report real-SFM qualification of the embedded standalone guard. A complete, attributable real-SFM qualification record for this exact R3 wrapper is still outstanding. See [verification](docs/VERIFICATION.md) for the remaining launch/UI checks.
+This repository preserves the R3 source artifact exactly. Complete-file compilation and isolated callback/failure tests have passed with SFM's bundled Python 2.7.5. Earlier real-SFM testing qualified the embedded standalone guard. A complete, attributable real-SFM qualification record for this exact R3 dual-host wrapper is still outstanding. See [verification](docs/VERIFICATION.md) for the remaining launch/UI checks.
 
 ## Troubleshooting and uninstall
 
@@ -66,7 +66,7 @@ Build the manual-install archive with Python 3.8 or later:
 python tools/build_release.py
 ```
 
-The build uses an explicit file list and stable ZIP metadata. It does not collect logs, tests, Git metadata, or research archives. See [packaging](docs/PACKAGING.md) and [development history](docs/DEVELOPMENT_HISTORY.md).
+The build uses an explicit file list and stable ZIP metadata. See [packaging](docs/PACKAGING.md), [verification](docs/VERIFICATION.md), and [development history](docs/DEVELOPMENT_HISTORY.md).
 
 ## Author and license
 

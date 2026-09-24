@@ -8,13 +8,13 @@ The public tests are portable adaptations of earlier project-owned isolated harn
 
 Run with SFM's bundled `sdktools/python/2.7/win32/python.exe -B -S tests/verify.py` from this repository to test the actual Python 2.7.5 compiler. A Python 3 result alone cannot establish compatibility with that older compiler. `tests/python275_exec_regression.py` is a small independent reproducer of the R2 compiler restriction and the R3 remedy.
 
-At the original R3 gate, 78 isolated assertions ran with Python 3 and 16 targeted assertions ran with the actual bundled Python 2.7.5. The new portable suite records its own current counts and version. The full R3 artifact and embedded guard are fingerprinted, so publication-only work must not silently replace either.
+At the original R3 gate, 78 isolated assertions ran with Python 3 and 16 targeted assertions ran with the actual bundled Python 2.7.5. The current portable suite records its own counts and interpreter version. The full R3 artifact and embedded guard are fingerprinted, so documentation-only work must not silently replace either.
 
 ## Real-SFM status
 
-The prior standalone handoff reports successful lifecycle tracking, Cancel mutation, and a later usable removal window in Python 2.7.5 / PySide 1.2.0 / Qt 4.8.3. Those observations concern the earlier standalone guard and experiments. The same guard bytes are embedded in R3, but that identity does not prove all R3 entry routes were exercised in SFM.
+Earlier real-SFM testing observed successful lifecycle tracking, Cancel mutation, and a later usable removal window in Python 2.7.5 / PySide 1.2.0 / Qt 4.8.3. Those observations concern the standalone guard that is embedded byte-for-byte in R3. That byte identity supports the guard behavior, but it does not prove that every R3 wrapper entry route was exercised in SFM.
 
-The current publication review did not launch SFM or perform GUI actions. Exact-R3 dual-host UI qualification remains unverified. This limitation is a runtime gate, not evidence of a newly found source defect.
+The publication preparation did not launch SFM or perform GUI actions. Exact-R3 dual-host UI qualification remains unverified. This limitation is a runtime gate, not evidence of a newly found source defect.
 
 ## Minimal real-SFM qualification
 

@@ -12,7 +12,7 @@ SourceFilmmaker/game/usermod/scripts/sfm/autoinit/Remove_Remove_Workshop_Prompt.
 
 Alternatively, extract the prepared manual-install ZIP into `SourceFilmmaker/game/`. Its `usermod/scripts/sfm/autoinit/` directory installs the same file. Use the release ZIP for installation, not GitHub's automatically generated source-code archive.
 
-Choose one startup method:
+Choose **one** startup method:
 
 1. **Steam launch option:** Add this in Source Filmmaker's Properties > Launch Options:
 
@@ -22,7 +22,9 @@ Choose one startup method:
 
 2. **KiwifruitDev Autoinit:** With Autoinit already installed, enable this script in Autoinit Manager. Autoinit discovers scripts beneath a mod's `scripts/sfm/autoinit/` directory. Autoinit is an external dependency and is not included.
 
-Restart SFM. Only one startup method is necessary. The same physical `.py` supports both methods; duplicate invocation in the same process preserves the existing guard state.
+Use exactly one method. **Do not configure both the Steam launch option and Autoinit at the same time.** Running both can interfere with Autoinit startup behavior and is unsupported. The same physical `.py` supports either method.
+
+Restart SFM after configuring your chosen method.
 
 These instructions describe a manual `usermod` installation. If Workshop or another installer places the file in another mod, point the native launch option at the file's actual game-relative location, or place the manual copy at the path above. Remove obsolete manual copies when switching installations, with SFM closed.
 
